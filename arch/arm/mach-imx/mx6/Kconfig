@@ -164,6 +164,15 @@ config TARGET_DISPLAY5
 	select DM
 	select DM_SERIAL
 
+config TARGET_ELITEIV
+	bool "C.E. Electronics, Inc. Elite IV"
+	select MX6QDL
+	select BOARD_LATE_INIT
+	select SUPPORT_SPL
+	select DM
+	select DM_THERMAL
+	select BOARD_EARLY_INIT_F
+
 config TARGET_EMBESTMX6BOARDS
 	bool "embestmx6boards"
 	select BOARD_LATE_INIT
