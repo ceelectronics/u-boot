@@ -62,6 +62,7 @@ DECLARE_GLOBAL_DATA_PTR;
 
 int dram_init(void)
 {
+    puts("dram_init\n");
 	gd->ram_size = imx_ddr_size();
 	return 0;
 }
@@ -93,6 +94,7 @@ static iomux_v3_cfg_t const enet_pads[] = {
 
 static void setup_iomux_enet(void)
 {
+    puts("setup_iomux_enet\n");
 	SETUP_IOMUX_PADS(enet_pads);
 
 	/* Reset AR8031 PHY */
@@ -188,18 +190,21 @@ static iomux_v3_cfg_t const bl_pads[] = {
 
 static void enable_backlight(void)
 {
+    puts("enable_backlight\n");
 	SETUP_IOMUX_PADS(bl_pads);
 	gpio_direction_output(DISP0_PWR_EN, 1);
 }
 
 static void enable_rgb(struct display_info_t const *dev)
 {
+    puts("enable_rgb\n");
 	SETUP_IOMUX_PADS(rgb_pads);
 	enable_backlight();
 }
 
 static void enable_lvds(struct display_info_t const *dev)
 {
+    puts("enable_lvds");
 	enable_backlight();
 }
 
@@ -231,6 +236,7 @@ static struct i2c_pads_info mx6dl_i2c_pad_info1 = {
 
 static void setup_spi(void)
 {
+    puts("setup_spi\n");
 	SETUP_IOMUX_PADS(ecspi1_pads);
 }
 
@@ -241,6 +247,7 @@ iomux_v3_cfg_t const pcie_pads[] = {
 
 static void setup_pcie(void)
 {
+    puts("setup_pcie\n");
 	SETUP_IOMUX_PADS(pcie_pads);
 }
 
@@ -252,6 +259,7 @@ iomux_v3_cfg_t const di0_pads[] = {
 
 static void setup_iomux_uart(void)
 {
+    puts("setup_iomux_uart\n");
 	SETUP_IOMUX_PADS(uart1_pads);
 }
 
@@ -267,11 +275,13 @@ struct fsl_esdhc_cfg usdhc_cfg[3] = {
 
 int board_mmc_get_env_dev(int devno)
 {
+    puts("board_mmc_get_env_dev\n");
 	return devno - 1;
 }
 
 int board_mmc_getcd(struct mmc *mmc)
 {
+    puts("board_mmc_getcd\n");
 	struct fsl_esdhc_cfg *cfg = (struct fsl_esdhc_cfg *)mmc->priv;
 	int ret = 0;
 
@@ -292,6 +302,7 @@ int board_mmc_getcd(struct mmc *mmc)
 
 int board_mmc_init(bd_t *bis)
 {
+    puts("board_mmc_init\n");
 #ifndef CONFIG_SPL_BUILD
 	int ret;
 	int i;
@@ -372,6 +383,7 @@ int board_mmc_init(bd_t *bis)
 
 static int ar8031_phy_fixup(struct phy_device *phydev)
 {
+    puts("ar8031_phy_fixup\n");
 	unsigned short val;
 
 	/* To enable AR8031 ouput a 125MHz clk from CLK_25M */
@@ -395,6 +407,7 @@ static int ar8031_phy_fixup(struct phy_device *phydev)
 
 int board_phy_config(struct phy_device *phydev)
 {
+    puts("board_phy_config\n");
 	ar8031_phy_fixup(phydev);
 
 	if (phydev->drv->config)
@@ -406,6 +419,7 @@ int board_phy_config(struct phy_device *phydev)
 #if defined(CONFIG_VIDEO_IPUV3)
 static void disable_lvds(struct display_info_t const *dev)
 {
+    puts("disable_lvds\n");
 	struct iomuxc *iomux = (struct iomuxc *)IOMUXC_BASE_ADDR;
 
 	int reg = readl(&iomux->gpr[2]);
@@ -418,6 +432,7 @@ static void disable_lvds(struct display_info_t const *dev)
 
 static void do_enable_hdmi(struct display_info_t const *dev)
 {
+    puts("do_enable_hdmi\n");
 	disable_lvds(dev);
 	imx_enable_hdmi_phy();
 }
@@ -487,6 +502,7 @@ size_t display_count = ARRAY_SIZE(displays);
 
 static void setup_display(void)
 {
+    puts("setup_display\n");
 	struct mxc_ccm_reg *mxc_ccm = (struct mxc_ccm_reg *)CCM_BASE_ADDR;
 	struct iomuxc *iomux = (struct iomuxc *)IOMUXC_BASE_ADDR;
 	int reg;
@@ -547,11 +563,13 @@ static void setup_display(void)
  */
 int overwrite_console(void)
 {
+    puts("overwrite_console\n");
 	return 1;
 }
 
 int board_eth_init(bd_t *bis)
 {
+    puts("board_eth_init\n");
 	setup_iomux_enet();
 	setup_pcie();
 
@@ -573,6 +591,7 @@ static iomux_v3_cfg_t const usb_hc1_pads[] = {
 
 static void setup_usb(void)
 {
+    puts("setup_usb\n");
 	SETUP_IOMUX_PADS(usb_otg_pads);
 
 	/*
@@ -586,6 +605,7 @@ static void setup_usb(void)
 
 int board_ehci_hcd_init(int port)
 {
+    puts("board_ehci_hcd_init\n");
 	u32 *usbnc_usb_ctrl;
 
 	if (port > 1)
@@ -601,6 +621,7 @@ int board_ehci_hcd_init(int port)
 
 int board_ehci_power(int port, int on)
 {
+    puts("board_ehci_power\n");
 	switch (port) {
 	case 0:
 		break;
@@ -621,6 +642,7 @@ int board_ehci_power(int port, int on)
 
 int board_early_init_f(void)
 {
+    puts("board_early_init_f\n");
 	setup_iomux_uart();
 
 	return 0;
@@ -628,6 +650,7 @@ int board_early_init_f(void)
 
 int board_init(void)
 {
+    puts("board_init\n");
 	/* address of boot parameters */
 	gd->bd->bi_boot_params = PHYS_SDRAM + 0x100;
 
@@ -650,6 +673,7 @@ int board_init(void)
 
 int power_init_board(void)
 {
+    puts("power_init_board\n");
 	struct pmic *p;
 	unsigned int reg;
 	int ret;
@@ -680,6 +704,7 @@ int power_init_board(void)
 #ifdef CONFIG_MXC_SPI
 int board_spi_cs_gpio(unsigned bus, unsigned cs)
 {
+    puts("board_spi_cs_gpio\n");
 	return (bus == 0 && cs == 0) ? (IMX_GPIO_NR(4, 9)) : -1;
 }
 #endif
@@ -697,6 +722,7 @@ static const struct boot_mode board_boot_modes[] = {
 
 int board_late_init(void)
 {
+    puts("board_late_init\n");
 #ifdef CONFIG_CMD_BMODE
 	add_board_boot_modes(board_boot_modes);
 #endif
@@ -717,7 +743,7 @@ int board_late_init(void)
 
 int checkboard(void)
 {
-	puts("Board: MX6-SabreSD\n");
+	puts("Board: Elite IV\n");
 	return 0;
 }
 
@@ -729,6 +755,7 @@ int checkboard(void)
 #ifdef CONFIG_SPL_OS_BOOT
 int spl_start_uboot(void)
 {
+    puts("spl_start_uboot\n");
 	gpio_direction_input(KEY_VOL_UP);
 
 	/* Only enter in Falcon mode if KEY_VOL_UP is pressed */
@@ -738,6 +765,7 @@ int spl_start_uboot(void)
 
 static void ccgr_init(void)
 {
+    puts("ccgr_init\n");
 	struct mxc_ccm_reg *ccm = (struct mxc_ccm_reg *)CCM_BASE_ADDR;
 
 	writel(0x00C03F3F, &ccm->CCGR0);
@@ -1019,6 +1047,7 @@ static int mx6dl_dcd_table[] = {
 
 static void ddr_init(int *table, int size)
 {
+    puts("ddr_init\n");
 	int i;
 
 	for (i = 0; i < size / 2 ; i++)
@@ -1027,6 +1056,7 @@ static void ddr_init(int *table, int size)
 
 static void spl_dram_init(void)
 {
+    puts("spl_dram_init\n");
 	if (is_mx6dq())
 		ddr_init(mx6q_dcd_table, ARRAY_SIZE(mx6q_dcd_table));
 	else if (is_mx6dqp())
@@ -1037,6 +1067,7 @@ static void spl_dram_init(void)
 
 void board_init_f(ulong dummy)
 {
+    puts("board_init_f\n");
 	/* DDR initialization */
 	spl_dram_init();
 
