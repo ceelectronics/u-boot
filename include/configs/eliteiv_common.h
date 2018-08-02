@@ -88,7 +88,8 @@
 		"fi\0" \
 	EMMC_ENV	  \
 	"mmcargs=setenv bootargs console=${console},${baudrate} " \
-		"root=PARTUUID=${uuid} rootwait rw video=mxcfb0:dev=hdmi,1680x1050@60,if=RGB24\0" \
+		"root=PARTUUID=${uuid} rootwait rw video=mxcfb0:dev=hdmi,1680x1050@60,if=RGB24 " \
+		"consoleblank=0\0" \
 	"loadbootscript=" \
 		"fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${script};\0" \
 	"bootscript=echo Running bootscript from mmc ...; " \
