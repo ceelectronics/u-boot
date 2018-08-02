@@ -2,7 +2,7 @@
 /*
  * Copyright (C) 2018 C.E. Electronics, Inc.
  *
- * Configuration settings for the C.E. Electronics, Inc Elite IV board.
+ * Configuration settings for the C.E. Electronics, Inc. Elite IV board.
  */
 
 #ifndef __ELITEIV_CONFIG_H
