@@ -92,7 +92,7 @@ static uint32_t bpp_to_pixfmt(struct fb_info *fbi)
 {
 	uint32_t pixfmt = 0;
 
-	debug("bpp_to_pixfmt: %d\n", fbi->var.bits_per_pixel);
+	printf("bpp_to_pixfmt: %d\n", fbi->var.bits_per_pixel);
 
 	if (fbi->var.nonstd)
 		return fbi->var.nonstd;
@@ -140,7 +140,7 @@ static int setup_disp_channel1(struct fb_info *fbi)
 	memset(&params, 0, sizeof(params));
 	params.mem_dp_bg_sync.di = mxc_fbi->ipu_di;
 
-	debug("%s called\n", __func__);
+	printf("%s called\n", __func__);
 	/*
 	 * Assuming interlaced means yuv output, below setting also
 	 * valid for mem_dc_sync. FG should have the same vmode as BG.
@@ -178,7 +178,7 @@ static int setup_disp_channel2(struct fb_info *fbi)
 
 	fbi->var.xoffset = fbi->var.yoffset = 0;
 
-	debug("%s: %x %d %d %d %lx %lx\n",
+	printf("%s: %x %d %d %d %lx %lx\n",
 		__func__,
 		mxc_fbi->ipu_ch,
 		fbi->var.xres,
@@ -257,7 +257,7 @@ static int mxcfb_set_par(struct fb_info *fbi)
 	if (fbi->var.sync & FB_SYNC_CLK_IDLE_EN)
 		sig_cfg.clkidle_en = 1;
 
-	debug("pixclock = %lu Hz\n", PICOS2KHZ(fbi->var.pixclock) * 1000UL);
+	printf("pixclock = %lu Hz\n", PICOS2KHZ(fbi->var.pixclock) * 1000UL);
 
 	if (ipu_init_sync_panel(mxc_fbi->ipu_di,
 				(PICOS2KHZ(fbi->var.pixclock)) * 1000UL,
@@ -411,7 +411,7 @@ static int mxcfb_map_video_memory(struct fb_info *fbi)
 		return -EBUSY;
 	}
 
-	debug("allocated fb @ paddr=0x%08X, size=%d.\n",
+	printf("allocated fb @ paddr=0x%08X, size=%d.\n",
 		(uint32_t) fbi->fix.smem_start, fbi->fix.smem_len);
 
 	fbi->screen_size = fbi->fix.smem_len;
@@ -451,7 +451,7 @@ static struct fb_info *mxcfb_init_fbinfo(void)
 	int size = sizeof(struct mxcfb_info) + PADDING +
 		sizeof(struct fb_info);
 
-	debug("%s: %d %d %d %d\n",
+	printf("%s: %d %d %d %d\n",
 		__func__,
 		PADDING,
 		size,
@@ -471,7 +471,7 @@ static struct fb_info *mxcfb_init_fbinfo(void)
 	fbi->par = p + sizeof(struct fb_info) + PADDING;
 
 	mxcfbi = (struct mxcfb_info *)fbi->par;
-	debug("Framebuffer structures at: fbi=0x%x mxcfbi=0x%x\n",
+	printf("Framebuffer structures at: fbi=0x%x mxcfbi=0x%x\n",
 		(unsigned int)fbi, (unsigned int)mxcfbi);
 
 	fbi->var.activate = FB_ACTIVATE_NOW;
@@ -596,7 +596,7 @@ void *video_hw_init(void)
 		puts("Error initializing IPU\n");
 
 	ret = mxcfb_probe(gpixfmt, gdisp, gmode);
-	debug("Framebuffer at 0x%x\n", (unsigned int)panel.frameAdrs);
+	printf("Framebuffer at 0x%x\n", (unsigned int)panel.frameAdrs);
 
 	return (void *)&panel;
 }
