@@ -131,7 +131,6 @@ unsigned int cm_get_qspi_controller_clk_hz(void);
 #define PHYS_SDRAM_1			0x0
 #define PHYS_SDRAM_1_SIZE		(1 * 1024 * 1024 * 1024)
 #define CONFIG_SYS_SDRAM_BASE		0
-#define CONFIG_NR_DRAM_BANKS		1
 #define CONFIG_SYS_MEMTEST_START	0
 #define CONFIG_SYS_MEMTEST_END		PHYS_SDRAM_1_SIZE - 0x200000
 
@@ -166,7 +165,6 @@ unsigned int cm_get_qspi_controller_clk_hz(void);
 /* Ethernet on SoC (EMAC) */
 #if defined(CONFIG_CMD_NET)
 #define CONFIG_DW_ALTDESCRIPTOR
-#define CONFIG_MII
 #endif /* CONFIG_CMD_NET */
 
 /*
@@ -204,6 +202,7 @@ unsigned int cm_get_l4_sys_free_clk_hz(void);
  * 0x8000_0000 ...... End of SDRAM_1 (assume 2GB)
  *
  */
+#define CONFIG_SPL_TARGET		"spl/u-boot-spl.hex"
 #define CONFIG_SPL_TEXT_BASE		CONFIG_SYS_INIT_RAM_ADDR
 #define CONFIG_SPL_MAX_SIZE		CONFIG_SYS_INIT_RAM_SIZE
 #define CONFIG_SPL_STACK		CONFIG_SYS_INIT_SP_ADDR
@@ -217,6 +216,6 @@ unsigned int cm_get_l4_sys_free_clk_hz(void);
 
 /* SPL SDMMC boot support */
 #define CONFIG_SYS_MMCSD_FS_BOOT_PARTITION	1
-#define CONFIG_SPL_FS_LOAD_PAYLOAD_NAME		"u-boot-dtb.img"
+#define CONFIG_SPL_FS_LOAD_PAYLOAD_NAME		"u-boot.img"
 
 #endif	/* __CONFIG_H */

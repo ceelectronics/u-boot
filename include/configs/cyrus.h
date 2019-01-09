@@ -49,7 +49,6 @@
 #define CONFIG_ENV_OVERWRITE
 
 #if defined(CONFIG_SDCARD)
-#define CONFIG_SYS_EXTRA_ENV_RELOC
 #define CONFIG_FSL_FIXED_MMC_LOCATION
 #define CONFIG_SYS_MMC_ENV_DEV          0
 #define CONFIG_ENV_SIZE			0x2000
@@ -149,8 +148,6 @@
 #if defined(CONFIG_RAMBOOT_PBL)
 #define CONFIG_SYS_RAMBOOT
 #endif
-
-#define CONFIG_MISC_INIT_R
 
 #define CONFIG_HWCONFIG
 
@@ -376,7 +373,6 @@
 
 #ifdef CONFIG_FMAN_ENET
 #define CONFIG_SYS_TBIPA_VALUE	8
-#define CONFIG_MII		/* MII PHY management */
 #define CONFIG_ETHPRIME		"FM1@DTSEC4"
 #endif
 

@@ -237,6 +237,16 @@ int ofnode_read_u32_default(ofnode ref, const char *propname, u32 def);
 int ofnode_read_s32_default(ofnode node, const char *propname, s32 def);
 
 /**
+ * ofnode_read_u64() - Read a 64-bit integer from a property
+ *
+ * @node:	valid node reference to read property from
+ * @propname:	name of the property to read from
+ * @outp:	place to put value (if found)
+ * @return 0 if OK, -ve on error
+ */
+int ofnode_read_u64(ofnode node, const char *propname, u64 *outp);
+
+/**
  * ofnode_read_u64_default() - Read a 64-bit integer from a property
  *
  * @ref:	valid node reference to read property from
@@ -323,7 +333,7 @@ ofnode ofnode_get_parent(ofnode node);
  * ofnode_get_name() - get the name of a node
  *
  * @node: valid node to look up
- * @return name or node
+ * @return name of node
  */
 const char *ofnode_get_name(ofnode node);
 
@@ -586,6 +596,19 @@ int ofnode_read_pci_addr(ofnode node, enum fdt_pci_space type,
 			 const char *propname, struct fdt_pci_addr *addr);
 
 /**
+ * ofnode_read_pci_vendev() - look up PCI vendor and device id
+ *
+ * Look at the compatible property of a device node that represents a PCI
+ * device and extract pci vendor id and device id from it.
+ *
+ * @param node		node to examine
+ * @param vendor	vendor id of the pci device
+ * @param device	device id of the pci device
+ * @return 0 if ok, negative on error
+ */
+int ofnode_read_pci_vendev(ofnode node, u16 *vendor, u16 *device);
+
+/**
  * ofnode_read_addr_cells() - Get the number of address cells for a node
  *
  * This walks back up the tree to find the closest #address-cells property
@@ -690,6 +713,20 @@ int ofnode_read_resource_byname(ofnode node, const char *name,
 ofnode ofnode_by_compatible(ofnode from, const char *compat);
 
 /**
+ * ofnode_by_prop_value() - Find the next node with given property value
+ *
+ * Find the next node after @from that has a @propname with a value
+ * @propval and a length @proplen.
+ *
+ * @from: ofnode to start from (use ofnode_null() to start at the
+ * beginning) @propname: property name to check @propval: property value to
+ * search for @proplen: length of the value in propval @return ofnode
+ * found, or ofnode_null() if none
+ */
+ofnode ofnode_by_prop_value(ofnode from, const char *propname,
+			    const void *propval, int proplen);
+
+/**
  * ofnode_for_each_subnode() - iterate over all subnodes of a parent
  *
  * @node:       child node (ofnode, lvalue)
@@ -737,4 +774,50 @@ u64 ofnode_translate_address(ofnode node, const fdt32_t *in_addr);
  * @return true if OK, false if the compatible is not found
  */
 int ofnode_device_is_compatible(ofnode node, const char *compat);
+
+/**
+ * ofnode_write_prop() - Set a property of a ofnode
+ *
+ * Note that the value passed to the function is *not* allocated by the
+ * function itself, but must be allocated by the caller if necessary.
+ *
+ * @node:	The node for whose property should be set
+ * @propname:	The name of the property to set
+ * @len:	The length of the new value of the property
+ * @value:	The new value of the property (must be valid prior to calling
+ *		the function)
+ * @return 0 if successful, -ve on error
+ */
+int ofnode_write_prop(ofnode node, const char *propname, int len,
+		      const void *value);
+
+/**
+ * ofnode_write_string() - Set a string property of a ofnode
+ *
+ * Note that the value passed to the function is *not* allocated by the
+ * function itself, but must be allocated by the caller if necessary.
+ *
+ * @node:	The node for whose string property should be set
+ * @propname:	The name of the string property to set
+ * @value:	The new value of the string property (must be valid prior to
+ *		calling the function)
+ * @return 0 if successful, -ve on error
+ */
+int ofnode_write_string(ofnode node, const char *propname, const char *value);
+
+/**
+ * ofnode_set_enabled() - Enable or disable a device tree node given by its
+ *			  ofnode
+ *
+ * This function effectively sets the node's "status" property to either "okay"
+ * or "disable", hence making it available for driver model initialization or
+ * not.
+ *
+ * @node:	The node to enable
+ * @value:	Flag that tells the function to either disable or enable the
+ *		node
+ * @return 0 if successful, -ve on error
+ */
+int ofnode_set_enabled(ofnode node, bool value);
+
 #endif

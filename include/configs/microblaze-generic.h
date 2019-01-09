@@ -59,8 +59,6 @@
 #ifdef FLASH
 # define CONFIG_SYS_FLASH_BASE		XILINX_FLASH_START
 # define CONFIG_SYS_FLASH_SIZE		XILINX_FLASH_SIZE
-# define CONFIG_SYS_FLASH_CFI		1
-# define CONFIG_FLASH_CFI_DRIVER	1
 /* ?empty sector */
 # define CONFIG_SYS_FLASH_EMPTY_INFO	1
 /* max number of memory banks */
@@ -68,9 +66,7 @@
 /* max number of sectors on one chip */
 # define CONFIG_SYS_MAX_FLASH_SECT	512
 /* hardware flash protection */
-# define CONFIG_SYS_FLASH_PROTECTION
 /* use buffered writes (20x faster) */
-# define	CONFIG_SYS_FLASH_USE_BUFFER_WRITE	1
 # ifdef	RAMENV
 #  define CONFIG_ENV_SIZE	0x1000
 #  define CONFIG_ENV_ADDR	(CONFIG_SYS_MONITOR_BASE - CONFIG_ENV_SIZE)
@@ -132,18 +128,8 @@
  */
 #define CONFIG_BOOTP_BOOTFILESIZE
 
-#if defined(CONFIG_CMD_JFFS2)
-# define CONFIG_MTD_PARTITIONS
-#endif
-
-#if defined(CONFIG_CMD_UBI)
-# define CONFIG_MTD_PARTITIONS
-#endif
-
 #if defined(CONFIG_MTD_PARTITIONS)
 /* MTD partitions */
-#define CONFIG_MTD_DEVICE	/* needed for mtdparts commands */
-#define CONFIG_FLASH_CFI_MTD
 
 /* default mtd partition table */
 #endif
@@ -179,10 +165,7 @@
 #define CONFIG_LMB		1
 
 #if defined(CONFIG_XILINX_AXIEMAC)
-# define CONFIG_MII		1
 # define CONFIG_SYS_FAULT_ECHO_LINK_DOWN	1
-#else
-# undef CONFIG_MII
 #endif
 
 /* SPL part */
