@@ -60,6 +60,8 @@ DECLARE_GLOBAL_DATA_PTR;
 
 #define KEY_VOL_UP	IMX_GPIO_NR(1, 4)
 
+#define PC  MUX_PAD_CTRL(I2C_PAD_CTRL)
+
 int dram_init(void)
 {
     puts("dram_init\n");
