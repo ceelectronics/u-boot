@@ -714,7 +714,7 @@ int board_late_init(void)
 #endif
 
 #ifdef CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG
-	env_set("board_name", "SABRESD");
+	env_set("board_name", "ELITEIV");
 
 	if (is_mx6dqp())
 		env_set("board_rev", "MX6QP");

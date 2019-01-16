@@ -148,6 +148,8 @@
 					"setenv fdt_file imx6qp-sabresd.dtb; fi; " \
 				"if test $board_name = SABRESD && test $board_rev = MX6Q; then " \
 					"setenv fdt_file imx6q-sabresd.dtb; fi; " \
+				"if test $board_name = ELITEIV && test $board_rev = MX6Q; then " \
+					"setenv fdt_file imx6q-eliteiv.dtb; fi; " \
 				"if test $board_name = SABRESD && test $board_rev = MX6DL; then " \
 					"setenv fdt_file imx6dl-sabresd.dtb; fi; " \
 				"if test $fdt_file = undefined; then " \
