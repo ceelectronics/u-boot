@@ -22,7 +22,7 @@ int initcall_run_list(const init_fnc_t init_sequence[])
 #ifdef CONFIG_EFI_APP
 		reloc_ofs = (unsigned long)image_base;
 #endif
-		printf("initcall: %p", (char *)*init_fnc_ptr - reloc_ofs);
+		debug("initcall: %p", (char *)*init_fnc_ptr - reloc_ofs);
 		if (gd->flags & GD_FLG_RELOC)
 			printf(" (relocated to %p)\n", (char *)*init_fnc_ptr);
 		else
