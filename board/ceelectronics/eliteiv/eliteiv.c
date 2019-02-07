@@ -190,6 +190,38 @@ static iomux_v3_cfg_t const bl_pads[] = {
 	IOMUX_PADS(PAD_SD1_DAT3__GPIO1_IO21 | MUX_PAD_CTRL(NO_PAD_CTRL)),
 };
 
+static iomux_v3_cfg_t const stdp4320_pads[] = {
+	IOMUX_PADS(PAD_GPIO_19__GPIO4_IO05 | MUX_PAD_CTRL(NO_PAD_CTRL)),
+};
+
+static void enable_stdp4320(void)
+{
+	int ret = 0;
+	int val = -1;
+	puts("enable_stdp4320\n");
+	SETUP_IOMUX_PADS(stdp4320_pads);
+	val = gpio_get_value(IMX_GPIO_NR(4, 5));
+	printf("GPIO 4 5 value is %d\n", val);
+	val = -1;
+	ret = gpio_direction_output(IMX_GPIO_NR(4, 5), 1);
+	if (ret != 0)
+		puts("Unable to turn on GPIO 4 5\n");
+	val = gpio_get_value(IMX_GPIO_NR(4, 5));
+	printf("GPIO 4 5 value is %d\n", val);
+	val = -1;
+	ret = gpio_direction_output(IMX_GPIO_NR(4, 5), 0);
+	if (ret != 0)
+		puts("Unable to turn off GPIO 4 5\n");
+	val = gpio_get_value(IMX_GPIO_NR(4, 5));
+	printf("GPIO 4 5 value is %d\n", val);
+	val = -1;
+	ret = gpio_direction_input(IMX_GPIO_NR(4, 5));
+	if (ret != 0)
+		puts("Unable to turn GPIO 4 5 into an input\n");
+	val = gpio_get_value(IMX_GPIO_NR(4, 5));
+	printf("GPIO 4 5 value is %d\n", val);
+}
+
 static void enable_backlight(void)
 {
 //  puts("enable_backlight\n");
@@ -723,6 +755,8 @@ int board_late_init(void)
 	else if (is_mx6sdl())
 		env_set("board_rev", "MX6DL");
 #endif
+	
+	enable_stdp4320();
 
 	return 0;
 }
